@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "PartyUp"
+version = "0.1.0"
+description = "A Discord bot for creating parties and queues."
+authors = ["ElliottSullingeFarrall <elliott.chalford@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.13"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

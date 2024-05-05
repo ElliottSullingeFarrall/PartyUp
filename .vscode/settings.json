@@ -1,0 +1,16 @@
+{
+    "code-runner.executorMap": {
+        "python": "cd $dir && $pythonPath $fullFileName"
+    },
+    "files.exclude": {
+        ".direnv": true,
+        ".venv": true,
+        "src/__pycache__": true,
+        "src/spiders/__pycache__": true,
+        ".envrc": true,
+        "flake.lock": true,
+        "poetry.lock": true,
+        ".vscode": true,
+        ".devcontainer": true
+    }
+}
