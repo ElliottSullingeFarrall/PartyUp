@@ -71,46 +71,12 @@ class PartyUp(Bot):
             else:
                 await ctx.respond(f'Party already exits for {role}')
 
-        # -------------------------------- Join Party -------------------------------- #
-
-        @party.command(
-            name='join',
-            description='Join a party for a specific role.'
-        )
-        async def join(ctx: ApplicationContext, role_id: RoleOption) -> None:
-            print(type(ctx))
-            role = ctx.interaction.guild.get_role(int(role_id))
-
-            if role.name in self.parties:
-                party = self.parties[role.name]
-                party.add(ctx.author)
-                await ctx.respond(f'Joined party for {party.role.mention}')
-            else:
-                await ctx.respond(f'No party for {role.name}')
-
-        # -------------------------------- Leave Party ------------------------------- #
-
-        @party.command(
-            name='leave',
-            description='Leave a party for a specific role.'
-        )
-        async def leave(ctx: ApplicationContext, role_id: RoleOption) -> None:
-            role = ctx.interaction.guild.get_role(int(role_id))
-
-            if role.name in self.parties:
-                party = self.parties[role.name]
-                party.remove(ctx.author)
-                await ctx.respond(f'Left party for {party.role.mention}')
-            else:
-                await ctx.respond(f'No party for {role.name}')
-
         # ------------------------------- Remove Party ------------------------------- #
 
         @party.command(
             name='remove',
             description='Remove a party for a specific role.'
         )
-        @default_permissions(administrator=True)
         async def remove(ctx: ApplicationContext, role_id: RoleOption) -> None:
             role = ctx.interaction.guild.get_role(int(role_id))
 
@@ -186,7 +152,7 @@ class Party:
         return PartyBtn(self)
 
     async def create_vc(self) -> None:
-        self.voice_chat = await self.category.create_voice_channel(name=f'{self.role.name} Party')
+        self.voice_chat = await self.category.create_voice_channel(name=f'Party: {self.role.name}')
 
     async def delete_vc(self) -> None:
         await self.voice_chat.delete()
