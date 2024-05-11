@@ -23,6 +23,8 @@
       {
         devShells.default = pkgs.mkShell {
           packages = with pkgs; [
+            inotify-tools
+            
             poetry
             python3Full
           ];

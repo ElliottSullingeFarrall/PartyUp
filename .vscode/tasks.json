@@ -7,6 +7,16 @@
     },
     "tasks": [
         {
+            "label": "Run Bot",
+            "type": "shell",
+            "command": "nix develop --command bash -c 'bash run.sh'",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
             "label": "Install Module from Selection",
             "type": "shell",
             "command": "nix develop --command bash -c  'poetry add ${selectedText}'"
