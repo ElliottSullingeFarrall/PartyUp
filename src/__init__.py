@@ -2,7 +2,7 @@ from typing import List
 
 from asyncio import create_task
 
-from discord import Bot, User, Role, Option, OptionChoice, Embed, Interaction, Colour, TextChannel, ButtonStyle, default_permissions
+from discord import Bot, User, Member, Status, Role, Option, OptionChoice, Embed, Interaction, Colour, TextChannel, ButtonStyle, default_permissions
 from discord.ui import View, Button, button
 from discord.ext import tasks
 from discord.utils import basic_autocomplete
@@ -29,12 +29,17 @@ class PartyUp(Bot):
 
         self.parties = {}
 
-    async def on_ready(self) -> None:
-        print(f'[*] We have logged in as {self.user}')
-
     def run(self, token: str) -> None:
         print('[*] Starting bot...')
         super().run(token, reconnect=True)
+
+    async def on_ready(self) -> None:
+        print(f'[*] We have logged in as {self.user}')
+
+    async def on_member_update(self, before: Member, after: Member):
+        if after.status == Status.offline:
+            for party in self.parties:
+                party.remove(after)
 
     def __commands__(self) -> None:
         party = self.create_group('party', 'Party commands.')
@@ -77,6 +82,7 @@ class PartyUp(Bot):
             name='remove',
             description='Remove a party for a specific role.'
         )
+        @default_permissions(administrator=True)
         async def remove(ctx: ApplicationContext, role_id: RoleOption) -> None:
             role = ctx.interaction.guild.get_role(int(role_id))
 
@@ -93,6 +99,7 @@ class PartyUp(Bot):
             name='list',
             description='List all available parties'
         )
+        @default_permissions(administrator=True)
         async def list(ctx: ApplicationContext) -> None:
             if self.parties:
                 parties_list = '\n'.join(f'- {role_name}' for role_name in self.parties.keys())
@@ -116,13 +123,16 @@ class Party:
         self.players = {creator}
 
         create_task(self.create_vc())
-        self.send_message.start()
+        self.updater.start()
 
     def __del__(self) -> None:
         create_task(self.delete_vc())
-        self.send_message.cancel()
+        self.updater.cancel()
         del self
 
+    @property
+    def is_empty(self) -> bool:
+        return len(self.players) == 0
     @property
     def is_full(self) -> bool:
         return len(self.players) == self.size
@@ -136,11 +146,13 @@ class Party:
             self.players.remove(player)
 
     @tasks.loop(minutes=5)
-    async def send_message(self) -> None:
+    async def updater(self) -> None:
         if hasattr(self, 'message'):
             await self.message.delete()
 
-        if not self.is_full:
+        if self.is_empty:
+            self.__del__()
+        elif not self.is_full:
             self.message = await self.channel.send(embed=self.msg_embed, view=self.msg_view)
 
     @property

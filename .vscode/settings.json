@@ -14,6 +14,10 @@
         "flake.lock": true,
         "poetry.lock": true,
         ".vscode": true,
-        ".devcontainer": true
+        ".devcontainer": true,
+        ".replit": true,
+        "replit.nix": true,
+        "repl.deploy": true,
+        "replit-deploy.json": true
     }
 }
