@@ -72,9 +72,28 @@ class PartyUp(Bot):
             party = Party(ctx.channel, ctx.author, role, size)
             if role.name not in self.parties:
                 self.parties[role.name] = party
-                await ctx.respond(f'Party created for {role} with size {size}')
+                await ctx.respond(f'Party created for {party.role.mention} with size {size}')
             else:
-                await ctx.respond(f'Party already exits for {role}')
+                await ctx.respond(f'Party already exits for {role.name}')
+
+        # ------------------------------- Adjust PArty ------------------------------- #
+
+        @party.command(
+            name='adjust',
+            description='Adjust party szie for a specific role.'
+        )
+        async def adjust(ctx: ApplicationContext, role_id: RoleOption, size: SizeOption) -> None:
+            role = ctx.interaction.guild.get_role(int(role_id))
+
+            if role.name in self.parties:
+                party = self.parties[role.name]
+                if size >= len(party.players):
+                    party.size = size
+                    await ctx.respond(f'Party size adjusted for {party.role.mention} to {size}')
+                else:
+                    await ctx.respond(f'Cannot adjust party size to {size} as there are already {len(party.players)} players in the party.')
+            else:
+                await ctx.respond(f'No party for {role.name}')
 
         # ------------------------------- Remove Party ------------------------------- #
 
