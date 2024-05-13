@@ -13,7 +13,7 @@ language = "python3"
 requiredFiles = [".replit", "replit.nix"]
 
 [deployment]
-run = "./repl.deploy --standalone python3 src/__init__.py"
+run = "RUST_LOG=repl_deploy=debug ./repl.deploy --standalone python3 src/__init__.py"
 deploymentTarget = "gce"
 ignorePorts = true
 
