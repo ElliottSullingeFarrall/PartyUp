@@ -16,3 +16,7 @@ requiredFiles = [".replit", "replit.nix"]
 run = "./repl.deploy --standalone python3 src/__init__.py"
 deploymentTarget = "gce"
 ignorePorts = true
+
+[[ports]]
+localPort = 8090
+externalPort = 80
