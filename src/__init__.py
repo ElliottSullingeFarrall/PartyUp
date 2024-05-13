@@ -76,7 +76,7 @@ class PartyUp(Bot):
             else:
                 await ctx.respond(f'Party already exits for {role.name}')
 
-        # ------------------------------- Adjust PArty ------------------------------- #
+        # ------------------------------- Adjust Party ------------------------------- #
 
         @party.command(
             name='adjust',
