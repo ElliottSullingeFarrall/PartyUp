@@ -17,7 +17,5 @@
         ".devcontainer": false,
         ".replit": false,
         "replit.nix": false,
-        "repl.deploy": false,
-        "replit-deploy.json": false
     }
 }
