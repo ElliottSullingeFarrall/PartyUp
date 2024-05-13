@@ -6,18 +6,18 @@
         "reportInvalidTypeForm": "none"
     },
     "files.exclude": {
-        ".direnv": true,
-        ".venv": true,
-        "src/__pycache__": true,
-        "src/spiders/__pycache__": true,
-        ".envrc": true,
-        "flake.lock": true,
-        "poetry.lock": true,
-        ".vscode": true,
-        ".devcontainer": true,
-        ".replit": true,
-        "replit.nix": true,
-        "repl.deploy": true,
-        "replit-deploy.json": true
+        ".direnv": false,
+        ".venv": false,
+        "src/__pycache__": false,
+        "src/spiders/__pycache__": false,
+        ".envrc": false,
+        "flake.lock": false,
+        "poetry.lock": false,
+        ".vscode": false,
+        ".devcontainer": false,
+        ".replit": false,
+        "replit.nix": false,
+        "repl.deploy": false,
+        "replit-deploy.json": false
     }
 }
